@@ -14,52 +14,28 @@ class Shop {
     for (let i = 0; i < this.items.length; i++) {
       const currentItem = this.items[i];
 
-      if (
-        currentItem.name != "Aged Brie" &&
-        currentItem.name != "Backstage passes to a TAFKAL80ETC concert"
-      ) {
-        if (currentItem.quality > 0) {
-          if (currentItem.name != "Sulfuras, Hand of Ragnaros") {
-            currentItem.quality = currentItem.quality - 1;
-          }
-        }
-      } else {
-        if (currentItem.quality < 50) {
-          currentItem.quality = currentItem.quality + 1;
-          if (currentItem.name == "Backstage passes to a TAFKAL80ETC concert") {
-            if (currentItem.sellIn < 11) {
-              if (currentItem.quality < 50) {
-                currentItem.quality = currentItem.quality + 1;
-              }
-            }
-            if (currentItem.sellIn < 6) {
-              if (currentItem.quality < 50) {
-                currentItem.quality = currentItem.quality + 1;
-              }
-            }
-          }
-        }
+      // "Sulfuras", being a legendary item, never has to be sold or decreases in Quality
+      if (currentItem.name === "Sulfuras, Hand of Ragnaros") {
+        continue;
       }
-      if (currentItem.name != "Sulfuras, Hand of Ragnaros") {
-        currentItem.sellIn = currentItem.sellIn - 1;
+
+      switch (currentItem.name) {
+        case "Aged Brie":
+          this.handleAgedBrie(currentItem);
+          break;
+        case "Backstage passes to a TAFKAL80ETC concert":
+          this.handleBackstagePasses(currentItem);
+          break;
+        default:
+          this.handleNormalItem(currentItem);
+          break;
       }
-      if (currentItem.sellIn < 0) {
-        if (currentItem.name != "Aged Brie") {
-          if (currentItem.name != "Backstage passes to a TAFKAL80ETC concert") {
-            if (currentItem.quality > 0) {
-              if (currentItem.name != "Sulfuras, Hand of Ragnaros") {
-                currentItem.quality = currentItem.quality - 1;
-              }
-            }
-          } else {
-            currentItem.quality = currentItem.quality - currentItem.quality;
-          }
-        } else {
-          if (currentItem.quality < 50) {
-            currentItem.quality = currentItem.quality + 1;
-          }
-        }
-      }
+
+      // Decrease sellIn and quality for all items except Sulfuras
+      currentItem.sellIn--;
+
+      // Ensure quality is within bounds
+      currentItem.quality = Math.max(0, Math.min(50, currentItem.quality));
     }
 
     return this.items;
