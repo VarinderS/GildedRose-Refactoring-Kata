@@ -64,6 +64,27 @@ class Shop {
 
     return this.items;
   }
+
+  handleNormalItem(item) {
+    const qualityDecrement = item.sellIn > 0 ? 1 : 2;
+    item.quality -= qualityDecrement;
+  }
+
+  handleAgedBrie(item) {
+    item.quality = Math.min(50, item.quality + (item.sellIn > 0 ? 1 : 2));
+  }
+
+  handleBackstagePasses(item) {
+    if (item.sellIn <= 0) {
+      item.quality = 0;
+    } else if (item.sellIn <= 5) {
+      item.quality += 3;
+    } else if (item.sellIn <= 10) {
+      item.quality += 2;
+    } else {
+      item.quality++;
+    }
+  }
 }
 
 module.exports = {
