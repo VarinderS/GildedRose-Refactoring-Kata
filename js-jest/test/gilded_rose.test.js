@@ -55,7 +55,7 @@ describe("Gilded Rose", () => {
     expect(items[0].quality).toBe(80);
   });
 
-  xit("should update conjured item quality and sellIn", () => {
+  it("should update conjured item quality and sellIn", () => {
     const items = [new Item("Conjured", 5, 10)];
     const gildedRose = new Shop(items);
 

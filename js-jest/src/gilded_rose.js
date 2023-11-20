@@ -26,6 +26,9 @@ class Shop {
         case "Backstage passes to a TAFKAL80ETC concert":
           this.handleBackstagePasses(currentItem);
           break;
+        case "Conjured":
+          this.handleConjured(currentItem);
+          break;
         default:
           this.handleNormalItem(currentItem);
           break;
@@ -60,6 +63,11 @@ class Shop {
     } else {
       item.quality++;
     }
+  }
+
+  handleConjured(item) {
+    const qualityDecrement = item.sellIn > 0 ? 2 : 4;
+    item.quality -= qualityDecrement;
   }
 }
 
